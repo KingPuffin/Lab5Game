@@ -1,6 +1,9 @@
 #include <msp430g2553.h>
 #include "game.h"
-#include "LCD/LCD.h"
+#include "LCDdriver/LCD.h"
+
+
+
 
 unsigned char initPlayer()
 {
@@ -21,10 +24,27 @@ void clearPlayer(unsigned char player)
 
 unsigned char movePlayer(unsigned char player, unsigned char direction)
 {
-	switch (direction) {
-		//
-		// update player position based on direction of movement
-		//
+	if( direction == DOWN )
+	{
+		player |= ROW_MASK;
+	}
+	else if( direction == UP )
+	{
+		player &= ~ROW_MASK;
+	}
+	else if( direction == LEFT )
+	{
+		if( (player & 0x0f) > 0 )
+		{
+			player --;
+		}
+	}
+	else
+	{
+		if( (player & 0x0f) < 7 )
+		{
+			player ++;
+		}
 	}
 
 	return player;
