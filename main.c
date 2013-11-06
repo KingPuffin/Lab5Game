@@ -5,10 +5,11 @@
 
 
 char timer = 0;
+char reset = 0;
 unsigned char player;
 char string1[] = {'Y','o','u'};
-char string2[] = {'W','i','n', ' ', ' ', ' ', ' ',' ', ' '};
-char string3[] = {'L','o','s','e', ' ', ' ', ' ', ' ', ' '};
+char string2[] = {'W','i','n', '!', '!', '!', '!','!', '!'};
+char string3[] = {'L','o','s','e', '!', '!', '!', '!', '!'};
 
 void init_a_timer()
 {
@@ -61,11 +62,15 @@ void main(void) {
 			writeString( string1, 3 );
 			LCDbottom();
 			writeString( string2, 9 );
-			__disable_interrupt();
-			while(1)
+			reset = 0;
+			while( reset == 0 )
 			{
 
 			}
+			LCDclear();
+			player = initPlayer();
+			printPlayer( player );
+			timer = 0;
 		}
 		if( timer == 4 )
 		{
@@ -73,11 +78,15 @@ void main(void) {
 			writeString( string1, 3 );
 			LCDbottom();
 			writeString( string3, 9 );
-			__disable_interrupt();
-			while(1)
+			reset = 0;
+			while( reset == 0 )
 			{
 
 			}
+			LCDclear();
+			player = initPlayer();
+			printPlayer( player );
+			timer = 0;
 		}
 	}
 }
@@ -154,5 +163,7 @@ __interrupt void Port_1_ISR(void)
 		}
 		P1IFG &= ~BIT4;
 	}
+
+	reset = 1;
 
 }
